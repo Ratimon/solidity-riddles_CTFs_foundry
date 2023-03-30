@@ -20,6 +20,9 @@ anvil-node-auto:
 3-deploy-overmint1-erc1155:
 	forge script DeployOvermint1_ERC1155Script --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
+3-unit:
+	forge test --match-path test/3_Overmint1-ERC1155.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef
