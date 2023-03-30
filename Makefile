@@ -8,6 +8,9 @@ anvil-node-auto:
 2-deploy-overmint1:
 	forge script DeployOvermint1Script --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
+1-unit:
+	forge test --match-path test/Overmint1.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef

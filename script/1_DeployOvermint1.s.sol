@@ -5,7 +5,7 @@ import {Script} from "@forge-std/Script.sol";
 import {Overmint1} from "@main/Overmint1.sol";
 
 contract DeployOvermint1Script is Script {
-    Overmint1 overmint1;
+    Overmint1 overmint1Challenge;
 
     function run() public {
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -17,7 +17,7 @@ contract DeployOvermint1Script is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        overmint1 = new Overmint1();
+        overmint1Challenge = new Overmint1();
 
         vm.stopBroadcast();
     }
