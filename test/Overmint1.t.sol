@@ -15,7 +15,6 @@ contract Overmint1Test is Test, DeployOvermint1Script {
     address deployer = vm.addr(deployerPrivateKey);
     address public attacker = address(11);
 
-
     Overmint1Attacker overmint1Attacker;
 
     function setUp() public {

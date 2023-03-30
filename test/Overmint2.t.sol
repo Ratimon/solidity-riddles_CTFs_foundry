@@ -5,7 +5,6 @@ import {Test} from "@forge-std/Test.sol";
 
 import {DeployOvermint2Script} from "@script/2_DeployOvermint2.s.sol";
 import {Overmint2} from "@main/Overmint2.sol";
-// import {Overmint1Attacker} from "@main/Overmint1Attacker.sol";
 
 contract Overmint2sTest is Test, DeployOvermint2Script {
 
@@ -15,9 +14,6 @@ contract Overmint2sTest is Test, DeployOvermint2Script {
     address deployer = vm.addr(deployerPrivateKey);
     address public attacker = address(11);
     address public attacker2 = address(12);
-
-
-    // Overmint2Attacker overmint2Attacker;
 
     function setUp() public {
 
@@ -32,32 +28,24 @@ contract Overmint2sTest is Test, DeployOvermint2Script {
     function test_isSolved() public {
         vm.startPrank(attacker);
 
-        // overmint1Attacker = new Overmint1Attacker(address(overmint1Challenge));
-        // overmint1Attacker.attack();
         overmint2Challenge.mint();
         overmint2Challenge.mint();
         overmint2Challenge.mint();
-
         assertEq(overmint2Challenge.balanceOf(attacker), 3 );
 
         vm.stopPrank(  );
-
         vm.startPrank(attacker2);
 
         overmint2Challenge.mint();
         overmint2Challenge.mint();
-
         overmint2Challenge.transferFrom(attacker2, attacker, 4);
         overmint2Challenge.transferFrom(attacker2, attacker, 5);
 
-
         vm.stopPrank(  );
 
-
         vm.startPrank(attacker);
-
         assertEq(overmint2Challenge.success(), true );
-        
+
         vm.stopPrank(  );
     }
 
