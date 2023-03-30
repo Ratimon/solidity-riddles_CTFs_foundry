@@ -7,7 +7,6 @@ import {DeployOvermint1Script} from "@script/1_DeployOvermint1.s.sol";
 import {Overmint1} from "@main/Overmint1.sol";
 import {Overmint1Attacker} from "@main/Overmint1Attacker.sol";
 
-
 contract Overmint1Test is Test, DeployOvermint1Script {
 
     string mnemonic ="test test test test test test test test test test test junk";
@@ -33,11 +32,9 @@ contract Overmint1Test is Test, DeployOvermint1Script {
         overmint1Attacker = new Overmint1Attacker(address(overmint1Challenge));
         overmint1Attacker.attack();
 
-        assertEq(overmint1Challenge.balanceOf(attacker), 5 );
+        assertEq(overmint1Challenge.success(attacker), true );
 
-       
         vm.stopPrank(  );
     }
-
 
 }
