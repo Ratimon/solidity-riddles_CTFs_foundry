@@ -27,7 +27,7 @@ anvil-node-auto:
 	forge script DeployForwarderScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
 4-unit:
-	forge test --match-path test/4_Forwarder.t.sol -vvvv
+	forge test --match-path test/4_Forwarder.t.sol -vvv
 
 define local_network
 http://127.0.0.1:$1
