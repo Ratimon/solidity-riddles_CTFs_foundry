@@ -20,7 +20,6 @@ contract DeployForwarderScript is Script {
 
         forwarder = new Forwarder();
         wallerChallenge = new Wallet{value: 1 ether}(address(forwarder));
-        
 
         vm.stopBroadcast();
     }
