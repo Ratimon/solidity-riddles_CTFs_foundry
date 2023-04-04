@@ -23,6 +23,9 @@ anvil-node-auto:
 3-unit:
 	forge test --match-path test/3_Overmint1-ERC1155.t.sol -vvv
 
+4-deploy-forwarder:
+	forge script DeployForwarderScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
+
 define local_network
 http://127.0.0.1:$1
 endef

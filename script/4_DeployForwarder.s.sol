@@ -2,10 +2,10 @@
 pragma solidity =0.8.19;
 
 import {Script} from "@forge-std/Script.sol";
-import {Overmint1} from "@main/Overmint1.sol";
+import {Wallet} from "@main/Forwarder.sol";
 
-contract DeployOvermint1Script is Script {
-    Overmint1 overmint1Challenge;
+contract DeployForwarderScript is Script {
+    Wallet forwarderChallenge;
 
     function run() public {
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -17,7 +17,7 @@ contract DeployOvermint1Script is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        overmint1Challenge = new Overmint1();
+        forwarderChallenge = new Wallet{value: 1 ether}(msg.sender);
 
         vm.stopBroadcast();
     }
