@@ -18,8 +18,9 @@ contract DeployForwarderScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        wallerChallenge = new Wallet{value: 1 ether}(msg.sender);
         forwarder = new Forwarder();
+        wallerChallenge = new Wallet{value: 1 ether}(address(forwarder));
+        
 
         vm.stopBroadcast();
     }
