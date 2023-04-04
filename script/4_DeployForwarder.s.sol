@@ -5,7 +5,7 @@ import {Script} from "@forge-std/Script.sol";
 import {Wallet, Forwarder} from "@main/Forwarder.sol";
 
 contract DeployForwarderScript is Script {
-    Wallet wallerChallenge;
+    Wallet walletChallenge;
     Forwarder forwarder;
 
     function run() public {
@@ -19,7 +19,7 @@ contract DeployForwarderScript is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         forwarder = new Forwarder();
-        wallerChallenge = new Wallet{value: 1 ether}(address(forwarder));
+        walletChallenge = new Wallet{value: 1 ether}(address(forwarder));
 
         vm.stopBroadcast();
     }
