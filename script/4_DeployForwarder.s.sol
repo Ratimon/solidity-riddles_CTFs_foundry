@@ -2,10 +2,11 @@
 pragma solidity =0.8.19;
 
 import {Script} from "@forge-std/Script.sol";
-import {Wallet} from "@main/Forwarder.sol";
+import {Wallet, Forwarder} from "@main/Forwarder.sol";
 
 contract DeployForwarderScript is Script {
-    Wallet forwarderChallenge;
+    Wallet wallerChallenge;
+    Forwarder forwarder;
 
     function run() public {
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -17,7 +18,8 @@ contract DeployForwarderScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        forwarderChallenge = new Wallet{value: 1 ether}(msg.sender);
+        wallerChallenge = new Wallet{value: 1 ether}(msg.sender);
+        forwarder = new Forwarder();
 
         vm.stopBroadcast();
     }
