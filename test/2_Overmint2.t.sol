@@ -43,7 +43,6 @@ contract Overmint2sTest is Test, DeployOvermint2Script {
 
         vm.startPrank(attacker);
         assertEq(overmint2Challenge.success(), true );
-
         vm.stopPrank(  );
     }
 

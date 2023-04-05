@@ -29,11 +29,14 @@ anvil-node-auto:
 4-unit:
 	forge test --match-path test/4_Forwarder.t.sol -vvv
 
-4-deploy-assignvotes:
+5-deploy-assignvotes:
 	forge script DeployAssignVotesScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
 5-unit:
 	forge test --match-path test/5_AssignVotes.t.sol -vvv
+
+6-deploy-overmint3:
+	forge script DeployOvermint3Script --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
 define local_network
 http://127.0.0.1:$1
