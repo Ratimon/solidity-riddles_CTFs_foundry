@@ -6,7 +6,7 @@ import {Test} from "@forge-std/Test.sol";
 import {DeployOvermint2Script} from "@script/2_DeployOvermint2.s.sol";
 import {Overmint2} from "@main/Overmint2.sol";
 
-contract Overmint2sTest is Test, DeployOvermint2Script {
+contract Overmint2Test is Test, DeployOvermint2Script {
 
     address public attacker = address(11);
     address public attacker2 = address(12);
