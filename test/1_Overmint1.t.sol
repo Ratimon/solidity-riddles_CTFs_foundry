@@ -23,6 +23,8 @@ contract Overmint1Test is Test, DeployOvermint1Script {
     function test_isSolved() public {
         vm.startPrank(attacker);
 
+        assertEq(overmint1Challenge.success(attacker), false );
+
         overmint1Attacker = new Overmint1Attacker(address(overmint1Challenge));
         overmint1Attacker.attack();
 

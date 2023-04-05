@@ -24,6 +24,8 @@ contract Overmint2sTest is Test, DeployOvermint2Script {
     function test_isSolved() public {
         vm.startPrank(attacker);
 
+        assertEq(overmint2Challenge.success(), false );
+
         overmint2Challenge.mint();
         overmint2Challenge.mint();
         overmint2Challenge.mint();

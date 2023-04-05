@@ -23,7 +23,9 @@ contract Overmint1_ERC1155Test is Test, DeployOvermint1_ERC1155Script {
     function test_isSolved() public {
         vm.startPrank(attacker);
 
+       
         uint256 id = 0;
+        assertEq(erc1155Challenge.success(attacker, id), false );
 
         erc1155Attacker = new Overmint1_ERC1155Attacker(address(erc1155Challenge));
         erc1155Attacker.attack(id);
