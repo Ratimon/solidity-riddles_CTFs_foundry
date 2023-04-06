@@ -41,6 +41,9 @@ anvil-node-auto:
 6-unit:
 	forge test --match-path test/6_Overmint3.t.sol -vvv
 
+7-deploy-democracy:
+	forge script DeployDemocracyScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
+
 define local_network
 http://127.0.0.1:$1
 endef
