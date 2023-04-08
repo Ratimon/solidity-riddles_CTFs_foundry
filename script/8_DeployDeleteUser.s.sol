@@ -2,10 +2,10 @@
 pragma solidity =0.8.19;
 
 import {Script} from "@forge-std/Script.sol";
-import {Democracy} from "@main/Democracy.sol";
+import {DeleteUser} from "@main/DeleteUser.sol";
 
-contract DeployDemocracyScript is Script {
-    Democracy democracyChallenge;
+contract DeployDeleteUserScript is Script {
+    DeleteUser deleteUserChallenge;
 
     function run() public {
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -17,7 +17,7 @@ contract DeployDemocracyScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        democracyChallenge = new Democracy();
+        deleteUserChallenge = new DeleteUser();
 
         vm.stopBroadcast();
     }
