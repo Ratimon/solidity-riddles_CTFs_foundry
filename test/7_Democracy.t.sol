@@ -7,13 +7,9 @@ import {DeployDemocracyScript} from "@script/7_DeployDemocracy.s.sol";
 import {Democracy} from "@main/Democracy.sol";
 import {DemocracyAttacker} from "@main/DemocracyAttacker.sol";
 
-// import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-
-
 interface IDemocracy {
     function votes(address voter) external returns (uint256);
 }
-
 
 contract DemocracyTest is Test, DeployDemocracyScript {
 

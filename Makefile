@@ -47,6 +47,12 @@ anvil-node-auto:
 7-unit:
 	forge test --match-path test/7_Democracy.t.sol -vvv
 
+8-deploy-delete:
+	forge script DeployDeleteUserScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
+
+8-unit:
+	forge test --match-path test/8_DeleteUser.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef
