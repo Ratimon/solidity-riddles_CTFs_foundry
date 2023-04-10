@@ -33,8 +33,6 @@ contract Overmint2Test is Test, DeployOvermint3Script {
 
     function setUp() public {
 
-        // vm.deal(attacker, 1 ether);
-        // vm.deal(attacker2, 1 ether);
         vm.label(attacker, "Attacker");
 
         string memory mnemonic ="test test test test test test test test test test test junk";

@@ -23,17 +23,12 @@ contract DemocracyTest is Test, DeployDemocracyScript {
     DemocracyAttacker democracyAttacker;
 
     function setUp() public {
-        vm.startPrank(deployer);
-
-        vm.deal(deployer, 1 ether);
-        //  vm.deal(attacker, 1 ether);
-
         vm.label(deployer, "Deployer");
         vm.label(attacker, "Attacker");
 
-        democracyChallenge = new Democracy{value: 1 ether}();
-        // DeployDemocracyScript.run();
-        vm.stopPrank(  );
+        vm.deal(deployer, 1 ether);
+
+        DeployDemocracyScript.run();
     }
 
     function test_isSolved() public {

@@ -8,16 +8,18 @@ import {Wallet, Forwarder} from "@main/Forwarder.sol";
 
 contract ForwarderTest is Test, DeployForwarderScript {
 
+    string  mnemonic ="test test test test test test test test test test test junk";
+    uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+
+    address deployer = vm.addr(deployerPrivateKey);
     address public attacker = address(11);
 
     function setUp() public {
-
-        // vm.deal(attacker, 1 ether);
         vm.label(attacker, "Attacker");
 
-        forwarder = new Forwarder();
-        walletChallenge = new Wallet{value: 1 ether}(address(forwarder));
-        // DeployForwarderScript.run();
+        vm.deal(deployer, 1 ether);
+
+        DeployForwarderScript.run();
     }
 
     function test_isSolved() public {

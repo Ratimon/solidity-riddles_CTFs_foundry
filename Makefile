@@ -53,6 +53,12 @@ anvil-node-auto:
 8-unit:
 	forge test --match-path test/8_DeleteUser.t.sol -vvv
 
+9-deploy-viceroy:
+	forge script DeployViceroyScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
+
+9-unit:
+	forge test --match-path test/9_Viceroy.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef

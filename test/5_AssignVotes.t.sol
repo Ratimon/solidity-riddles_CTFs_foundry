@@ -7,7 +7,6 @@ import {DeployAssignVotesScript} from "@script/5_DeployAssignVotes.s.sol";
 import {AssignVotes} from "@main/AssignVotes.sol";
 
 interface CheatCodes {
-
    function startPrank(address) external;
    function addr(uint256) external returns (address);
    function deriveKey(
@@ -15,20 +14,23 @@ interface CheatCodes {
         string calldata path,
         uint32 index
     ) external returns (uint256);
-
 }
 
 contract AssignVotesTest is Test, DeployAssignVotesScript {
 
     CheatCodes cheats = CheatCodes(HEVM_ADDRESS);
+    string  mnemonic ="test test test test test test test test test test test junk";
+    uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+
+    address deployer = vm.addr(deployerPrivateKey);
     address public attacker = address(11);
 
     function setUp() public {
-        // vm.deal(attacker, 1 ether);
         vm.label(attacker, "Attacker");
 
-        assignvotesChallenge = new AssignVotes{value: 1 ether}();
-        // DeployAssignVotesScript.run();
+        vm.deal(deployer, 1 ether);
+
+        DeployAssignVotesScript.run();
     }
 
     function test_isSolved() public {
@@ -37,7 +39,6 @@ contract AssignVotesTest is Test, DeployAssignVotesScript {
         assertEq( address(assignvotesChallenge).balance, 1 ether );
         assertEq( address(attacker).balance, 0 );
 
-        string memory mnemonic ="test test test test test test test test test test test junk";
         uint256 voterPrivateKey;
         address voter;
         address[10] memory voters;
