@@ -21,7 +21,6 @@ contract DeleteUserTest is Test, DeployDeleteUserScript {
         vm.deal(deployer, 1 ether);
 
         DeployDeleteUserScript.run();
-       
     }
 
     modifier beforeEach() {
