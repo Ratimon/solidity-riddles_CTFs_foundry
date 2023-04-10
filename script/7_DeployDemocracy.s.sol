@@ -17,7 +17,7 @@ contract DeployDemocracyScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        democracyChallenge = new Democracy();
+        democracyChallenge = new Democracy{value: 1 ether}();
 
         vm.stopBroadcast();
     }

@@ -34,7 +34,6 @@ contract Overmint1Attacker {
         overmint1.mint();
     }
 
-
     /**
      * @dev accept erc721 from safeTransferFrom and safeMint after callback
      * @return received selector

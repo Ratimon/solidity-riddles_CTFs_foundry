@@ -9,7 +9,6 @@ import {Overmint1_ERC1155Attacker} from "@main/Overmint1-ERC1155Attacker.sol";
 
 contract Overmint1_ERC1155Test is Test, DeployOvermint1_ERC1155Script {
     address public attacker = address(11);
-
     Overmint1_ERC1155Attacker erc1155Attacker;
 
     function setUp() public {

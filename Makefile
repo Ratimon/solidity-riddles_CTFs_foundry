@@ -44,6 +44,9 @@ anvil-node-auto:
 7-deploy-democracy:
 	forge script DeployDemocracyScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
+7-unit:
+	forge test --match-path test/7_Democracy.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef
