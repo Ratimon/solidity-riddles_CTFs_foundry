@@ -19,7 +19,6 @@ interface IERC721Mintable{
 }
 
 contract Overmint1Attacker {
-
     IERC721Mintable overmint1;
     address attacker;
 

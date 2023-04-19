@@ -3,15 +3,14 @@ pragma solidity =0.8.19;
 
 import {Script} from "@forge-std/Script.sol";
 import {OligarchyNFT, Governance } from "@main/Viceroy.sol";
-import {ViceroyAttacker} from "@main/ViceroyAttacker.sol";
+import {GovernanceAttacker} from "@main/ViceroyAttacker.sol";
 
 // import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-
 contract DeployViceroyScript is Script {
     OligarchyNFT oligarch;
-    ViceroyAttacker viceroyAttacker;
     Governance governance;
+    GovernanceAttacker viceroyAttacker;
 
     function run() public {
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -24,7 +23,8 @@ contract DeployViceroyScript is Script {
 
         vm.startBroadcast(attackerPrivateKey);
 
-        viceroyAttacker = new ViceroyAttacker();
+        address attacker = vm.addr(attackerPrivateKey);
+        viceroyAttacker = new GovernanceAttacker(attacker);
 
         vm.stopBroadcast();
         vm.startBroadcast(deployerPrivateKey);

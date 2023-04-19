@@ -58,7 +58,6 @@ contract Overmint2Test is Test, DeployOvermint3Script {
             cheats.startPrank(attackers[j]);
             overmint3Challenge.mint();
             uint256 tokenId = IOvermint3(address(overmint3Challenge)).totalSupply();
-            // overmint3Challenge.transferFrom(attackers[j], attacker, j+1);
             overmint3Challenge.transferFrom(attackers[j], attacker, tokenId);
 
             unchecked {
