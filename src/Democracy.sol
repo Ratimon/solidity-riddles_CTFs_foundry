@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity =0.8.19;
 
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 /**
  * Democracy NFT: One hodler, one vote!
@@ -27,10 +28,6 @@ contract Democracy is Ownable, ERC721 {
     mapping(address => bool) public voted;
     mapping(address => uint256) public votes;
     bool public electionCalled = false;
-
-    constructor() payable ERC721("Democracy NFT", "DMRCY") {
-        incumbent = owner();
-    }
 
     modifier electionNotYetCalled() {
         require(!electionCalled, "DemocracyNft: Election has ended");
@@ -64,6 +61,10 @@ contract Democracy is Ownable, ERC721 {
             "DemocracyNft: Feature available to EOAs only"
         );
         _;
+    }
+
+    constructor() payable ERC721("Democracy NFT", "DMRCY") {
+        incumbent = owner();
     }
 
     function nominateChallenger(address challenger_) external {

