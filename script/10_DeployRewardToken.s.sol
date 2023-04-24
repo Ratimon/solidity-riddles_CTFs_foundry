@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.19;
 
-// import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-
 import {Script} from "@forge-std/Script.sol";
 import {NftToStake, Depositoor, RewardToken} from "@main/RewardToken.sol";
 import {RewardTokenAttacker} from "@main/RewardTokenAttacker.sol";
@@ -11,7 +9,7 @@ contract DeployRewardTokenScript is Script {
     NftToStake nftToStake;
     Depositoor depositoor;
     RewardToken rewardToken;
-    RewardTokenAttacker rewardTokenAttacker;
+    // RewardTokenAttacker rewardtokenAttacker;
 
     function run() public {
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -24,13 +22,13 @@ contract DeployRewardTokenScript is Script {
 
         vm.startBroadcast(attackerPrivateKey);
 
-        // address attacker = vm.addr(attackerPrivateKey);
-        rewardTokenAttacker = new RewardTokenAttacker();
+        address attacker = vm.addr(attackerPrivateKey);
+        // rewardtokenAttacker = new RewardTokenAttacker();
 
         vm.stopBroadcast();
         vm.startBroadcast(deployerPrivateKey);
 
-        nftToStake = new NftToStake(address(rewardTokenAttacker));
+        nftToStake = new NftToStake(attacker);
         depositoor = new Depositoor(nftToStake);
         rewardToken = new RewardToken(address(depositoor));
 

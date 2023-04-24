@@ -4,12 +4,9 @@ pragma solidity =0.8.19;
 interface IERC721Mintable{
 
     function balanceOf(address owner) external view returns (uint256 balance);
-
     // ----------- State changing Api -----------
 
     function mint() external;
-
-
     function transferFrom(
         address from,
         address to,

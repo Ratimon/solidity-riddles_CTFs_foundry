@@ -19,13 +19,12 @@ contract ViceroyTest is Test, DeployViceroyScript {
     address deployer = vm.addr(deployerPrivateKey);
     address attacker = vm.addr(attackerPrivateKey);
 
-    // GovernanceAttacker governanceAttacker;
-
     function setUp() public {
-        vm.deal(attacker, 1 ether);
+        vm.label(deployer, "Deployer");
         vm.label(attacker, "Attacker");
 
         vm.deal(deployer, 1 ether);
+        vm.deal(attacker, 1 ether);
 
         DeployViceroyScript.run();
     }
