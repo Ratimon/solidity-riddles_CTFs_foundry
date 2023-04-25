@@ -71,6 +71,8 @@ contract ViceroyAttacker {
                 bytecode,
                 abi.encode(_governance, proposalId, address(this))
             );
+
+            // rlp
             // get hash & address 
             //  keccak256( 0xff ++ senderAddress ++ salt ++ keccak256(init_code))
 
