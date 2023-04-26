@@ -68,6 +68,9 @@ anvil-node-auto:
 11-deploy-flashloan:
 	forge script DeployFlashloanScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
+11-unit:
+	forge test --match-path test/11_Flashloan.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef

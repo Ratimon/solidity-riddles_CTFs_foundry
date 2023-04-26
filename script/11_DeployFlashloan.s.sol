@@ -11,7 +11,7 @@ contract DeployFlashloanScript is Script {
     CollateralToken collateralToken;
     AMM amm;
     Lending lending;
-    FlashLender flashLone;
+    FlashLender flashLoan;
 
     function run() public {
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -23,11 +23,9 @@ contract DeployFlashloanScript is Script {
         address deployer = vm.addr(deployerPrivateKey);
 
         vm.startBroadcast(deployerPrivateKey);
-
         collateralToken = new CollateralToken();
         
         // sha3(rlp.encode([normalize_address(sender), nonce]))
-
         // RLP for 20 byte address will be 0xd6, 0x94
         // RLP for nounce of 1 will be 0x1 (+ 1 because we approve first before deploying it)
 
@@ -35,19 +33,12 @@ contract DeployFlashloanScript is Script {
             uint160(uint256(keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), deployer, bytes1(0x02)))))
         );
 
-
         collateralToken.approve(predictedAMM, type(uint256).max);
         amm = new AMM{ value : 20 ether}(address(collateralToken));
-        lending = new Lending(address(lending));
+        lending = new Lending(address(amm));
         address[] memory supportedTokens = new address[](1);
         supportedTokens[0] = address(collateralToken);
-        flashLone = new FlashLender(supportedTokens, 0);
-
-        // collateralToken.transfer(address(flashLone), 500 ether);
-        // (bool success,) = address(lending).call{value: 6 ether }("");
-        // require(success);
-        // collateralToken.transfer(address(flashLone), 500 ether);
-
+        flashLoan = new FlashLender(supportedTokens, 0);
 
         vm.stopBroadcast();
     }

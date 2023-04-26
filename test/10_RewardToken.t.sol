@@ -17,7 +17,6 @@ contract RewardTokenTest is Test, DeployRewardTokenScript {
 
     RewardTokenAttacker rewardtokenAttacker;
 
-
     function setUp() public {
         vm.label(deployer, "Deployer");
         vm.label(attacker, "Attacker");
@@ -46,7 +45,6 @@ contract RewardTokenTest is Test, DeployRewardTokenScript {
         vm.startPrank(attacker);
 
         rewardtokenAttacker = new RewardTokenAttacker(address(depositoor), address(rewardToken), address(nftToStake));
-        // rewardtokenAttacker.init(address(depositoor), address(rewardToken), address(nftToStake));
 
         nftToStake.approve(address(rewardtokenAttacker), 42);
         nftToStake.safeTransferFrom(attacker ,address(rewardtokenAttacker), 42);
