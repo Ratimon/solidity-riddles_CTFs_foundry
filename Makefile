@@ -74,6 +74,9 @@ anvil-node-auto:
 12-deploy-readonly:
 	forge script DeployReadOnlyScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
+12-unit:
+	forge test --match-path test/12_ReadOnly.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef

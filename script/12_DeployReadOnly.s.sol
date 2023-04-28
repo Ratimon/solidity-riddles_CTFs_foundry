@@ -21,9 +21,9 @@ contract DeployReadOnlyScript is Script {
         readOnlyPool = new ReadOnlyPool();
         vulnerableDeFiContract = new VulnerableDeFiContract(readOnlyPool);
 
-        readOnlyPool.addLiquidity{value: 100 ether}();
-        readOnlyPool.earnProfit{value: 1 ether}();
-        vulnerableDeFiContract.snapshotPrice();
+        // readOnlyPool.addLiquidity{value: 100 ether}();
+        // readOnlyPool.earnProfit{value: 1 ether}();
+        // vulnerableDeFiContract.snapshotPrice();
 
         vm.stopBroadcast();
     }
