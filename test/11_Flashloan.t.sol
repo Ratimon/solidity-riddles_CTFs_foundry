@@ -7,8 +7,7 @@ import {DeployFlashloanScript} from "@script/11_DeployFlashloan.s.sol";
 import {FlashloanAttacker} from "@main/FlashLoanCTF/FlashloanAttacker.sol";
 
 contract FlashloanTest is Test, DeployFlashloanScript {
-
-    string mnemonic ="test test test test test test test test test test test junk";
+    string mnemonic = "test test test test test test test test test test test junk";
     uint256 deployerPrivateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/0/", 1); //  address = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
 
     address deployer = vm.addr(deployerPrivateKey);
@@ -37,16 +36,16 @@ contract FlashloanTest is Test, DeployFlashloanScript {
         collateralToken.transfer(address(flashLoan), 500 ether);
         // owner deposits collateral to lending contract to be borrowable
         // can also be done by calling LendingContract.addLiquidity() but this is cheaper because no calldata to pay for
-        (bool success,) = address(lending).call{value: 6 ether }("");
+        (bool success,) = address(lending).call{value: 6 ether}("");
         require(success);
         // Send 500 tokens to borrower for collateral
         collateralToken.transfer(borrower, 500 ether);
-        vm.stopPrank(  );
+        vm.stopPrank();
         vm.startPrank(borrower);
         collateralToken.approve(address(lending), type(uint256).max);
         // borrower takes loan and pays 240 tokens as collateral
         lending.borrowEth(6 ether);
-        vm.stopPrank(  );
+        vm.stopPrank();
         _;
     }
 
@@ -54,10 +53,10 @@ contract FlashloanTest is Test, DeployFlashloanScript {
         vm.startPrank(lender);
 
         /**
-        * Requirements:
-        * - Liquidate and take all collateral from lending contract and send to lender wallet
-        * - Do this in 2 transactions or less?
-        */
+         * Requirements:
+         * - Liquidate and take all collateral from lending contract and send to lender wallet
+         * - Do this in 2 transactions or less?
+         */
 
         flashloanAttacker = new FlashloanAttacker(
             payable(address(amm)),
@@ -67,9 +66,8 @@ contract FlashloanTest is Test, DeployFlashloanScript {
         );
         flashloanAttacker.attack();
 
-        assertEq( collateralToken.balanceOf(address(lending)) , 0 ether, "must fully drain lending contract");
+        assertEq(collateralToken.balanceOf(address(lending)), 0 ether, "must fully drain lending contract");
 
-        vm.stopPrank(  );
+        vm.stopPrank();
     }
-
 }

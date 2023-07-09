@@ -13,7 +13,6 @@ contract Overmint1Test is Test, DeployOvermint1Script {
     Overmint1Attacker overmint1Attacker;
 
     function setUp() public {
-
         vm.deal(attacker, 1 ether);
         vm.label(attacker, "Attacker");
 
@@ -23,14 +22,13 @@ contract Overmint1Test is Test, DeployOvermint1Script {
     function test_isSolved() public {
         vm.startPrank(attacker);
 
-        assertEq(overmint1Challenge.success(attacker), false );
+        assertEq(overmint1Challenge.success(attacker), false);
 
         overmint1Attacker = new Overmint1Attacker(address(overmint1Challenge));
         overmint1Attacker.attack();
 
-        assertEq(overmint1Challenge.success(attacker), true );
+        assertEq(overmint1Challenge.success(attacker), true);
 
-        vm.stopPrank(  );
+        vm.stopPrank();
     }
-
 }

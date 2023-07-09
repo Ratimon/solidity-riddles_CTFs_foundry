@@ -12,7 +12,6 @@ contract Overmint1_ERC1155Test is Test, DeployOvermint1_ERC1155Script {
     Overmint1_ERC1155Attacker erc1155Attacker;
 
     function setUp() public {
-
         vm.deal(attacker, 1 ether);
         vm.label(attacker, "Attacker");
 
@@ -22,16 +21,14 @@ contract Overmint1_ERC1155Test is Test, DeployOvermint1_ERC1155Script {
     function test_isSolved() public {
         vm.startPrank(attacker);
 
-       
         uint256 id = 0;
-        assertEq(erc1155Challenge.success(attacker, id), false );
+        assertEq(erc1155Challenge.success(attacker, id), false);
 
         erc1155Attacker = new Overmint1_ERC1155Attacker(address(erc1155Challenge));
         erc1155Attacker.attack(id);
 
-        assertEq(erc1155Challenge.success(attacker, id), true );
+        assertEq(erc1155Challenge.success(attacker, id), true);
 
-        vm.stopPrank(  );
+        vm.stopPrank();
     }
-
 }
