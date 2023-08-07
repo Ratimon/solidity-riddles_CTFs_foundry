@@ -80,6 +80,9 @@ anvil-node-auto:
 12-deploy-doubletake:
 	forge script DeployDoubleTakeScript --rpc-url $(call local_network,8545)  -vvvv --broadcast; \
 
+13-unit:
+	forge test --match-path test/13_DoubleTake.t.sol -vvv
+
 define local_network
 http://127.0.0.1:$1
 endef

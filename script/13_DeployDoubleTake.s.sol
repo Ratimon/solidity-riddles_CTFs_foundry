@@ -17,7 +17,7 @@ contract DeployDoubleTakeScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        doubleTake = new DoubleTake();
+        doubleTake = new DoubleTake{value: 2 ether}();
 
         vm.stopBroadcast();
     }
