@@ -3,7 +3,7 @@ pragma solidity =0.8.19;
 
 // You've been approved to claim 1 ETH. Claim more than your fair share.
 contract DoubleTake {
-    address signer = 0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200;
+    address signer = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
     mapping(bytes => bool) used;
     mapping(address => uint256) public allowance;
 
