@@ -5,6 +5,7 @@ import {Test} from "@forge-std/Test.sol";
 
 import {DeployDoubleTakeScript} from "@script/13_DeployDoubleTake.s.sol";
 import {DoubleTake} from "@main/DoubleTake.sol";
+import {ForceAttacker} from "@main/DoubleTakeAttacker.sol";
 
 contract DoubleTakeTest is Test, DeployDoubleTakeScript {
     string mnemonic = "test test test test test test test test test test test junk";
@@ -67,19 +68,6 @@ contract DoubleTakeTest is Test, DeployDoubleTakeScript {
         assertEq(address(attacker).balance, 0 ether, "challenge balance should equal zero");
 
         vm.stopPrank();
-    }
-}
-
-contract ForceAttacker {
-    address target;
-
-    constructor(address _target) payable {
-        require(msg.value == 0.1 ether);
-        target = _target;
-    }
-
-    function attack() public {
-        selfdestruct(payable(target));
     }
 }
 
