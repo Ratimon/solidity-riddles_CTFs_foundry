@@ -35,14 +35,14 @@ contract DoubleTakeTest is Test, DeployDoubleTakeScript {
         assertEq(address(doubleTake).balance, 2 ether, "challenge balance should equal the full amount");
 
         ClaimAirdropSignature.ClaimAirdrop memory claim = ClaimAirdropSignature.ClaimAirdrop({
-            user: 0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200,
+            user: attacker,
             amount: 1 ether
         });
 
         bytes32 digestClaim = sigUtils.getStructHash(claim);
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(deployerPrivateKey, digestClaim);
 
-        doubleTake.claimAirdrop(0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200, 1 ether, v, r, s);
+        doubleTake.claimAirdrop(attacker, 1 ether, v, r, s);
 
         assertEq(address(doubleTake).balance, 1 ether, "challenge balance should equal balance after the first claim");
 
@@ -57,15 +57,16 @@ contract DoubleTakeTest is Test, DeployDoubleTakeScript {
         forceAttacker.attack();
 
         ClaimAirdropSignature.ClaimAirdrop memory claim = ClaimAirdropSignature.ClaimAirdrop({
-            user: 0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200,
+            user: attacker,
             amount: 1.1 ether
         });
 
         bytes32 digestClaim = sigUtils.getStructHash(claim);
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(deployerPrivateKey, digestClaim);
 
-        doubleTake.claimAirdrop(0x5Cd705F118aD9357Ac8330f48AdA7A60F3efc200, 1.1 ether, v, r, s);
-        assertEq(address(attacker).balance, 0 ether, "challenge balance should equal zero");
+        doubleTake.claimAirdrop(attacker, 1.1 ether, v, r, s);
+        assertEq(address(attacker).balance, 2.1 ether, "attacker balance should clain the full amount");
+        assertEq(address(doubleTake).balance, 0 ether, "challenge balance should equal zero");
 
         vm.stopPrank();
     }
